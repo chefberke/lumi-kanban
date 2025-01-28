@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "react-beautiful-dnd";
 import { fetchInitialData } from "@/components/board/InitialData";
 import { createClient } from "@/utils/client";
 
@@ -29,7 +34,12 @@ const Board: React.FC = () => {
     const fetchData = async () => {
       try {
         const initialData = await fetchInitialData();
-        if (initialData && initialData.columns && initialData.items && initialData.columnOrder) {
+        if (
+          initialData &&
+          initialData.columns &&
+          initialData.items &&
+          initialData.columnOrder
+        ) {
           setData(initialData);
         } else {
           console.error("Invalid data types:", initialData);
@@ -117,22 +127,45 @@ const Board: React.FC = () => {
       <div className="board-container grid grid-cols-3 gap-4">
         {data.columnOrder.map((columnId) => {
           const column = data.columns[columnId];
-          const items = column?.itemId?.map((itemId: any) => data.items[itemId]).filter(Boolean);
+          const items = column?.itemId
+            ?.map((itemId: any) => data.items[itemId])
+            .filter(Boolean);
 
           return (
-            <Droppable key={column.id} droppableId={column.id} direction="vertical">
+            <Droppable
+              key={column.id}
+              droppableId={column.id}
+              direction="vertical"
+            >
               {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps} className="column p-4 rounded-lg">
+                <div
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className="column p-4 rounded-2xl bg-gray-100"
+                >
                   <div className="column-header">
-                    <h3 className="font-bold mb-2">{column.title}</h3>
+                    <h3 className="font-bold mb-2 border-l-8 rounded-sm pl-3 border-purple-500">
+                      {column.title}
+                    </h3>
                   </div>
                   <div className="column-content space-y-2">
-                    {items?.length === 0 && <div className="text-gray-500">No items</div>}
+                    {items?.length === 0 && (
+                      <div className="text-gray-500">No items</div>
+                    )}
 
                     {items?.map((item: Item, index: number) => (
-                      <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
+                      <Draggable
+                        key={item.id}
+                        draggableId={item.id.toString()}
+                        index={index}
+                      >
                         {(provided) => (
-                          <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} className="item bg-white p-2 shadow rounded">
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className="item bg-white p-2 shadow rounded-2xl border border-gray-300"
+                          >
                             {item.content}
                           </div>
                         )}
