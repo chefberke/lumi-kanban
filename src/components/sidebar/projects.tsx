@@ -43,7 +43,9 @@ function SidebarProjects() {
         <h2 className="text-gray-500 text-sm font-medium">Projects</h2>
       </div>
 
-      {error != null ? <div className="text-red-500 text-[15px] pt-4">error</div> : null}
+      {error != null ? (
+        <div className="text-red-500 text-[15px] pt-4">error</div>
+      ) : null}
 
       {state.loading === true ? (
         <div className="flex items-center">
@@ -55,16 +57,21 @@ function SidebarProjects() {
           ? state.data.map((item: any, index: any) => (
               <div
                 key={index}
-                className={`flex items-center gap-3 mb-1.5 ${item.workspaceId.toString() === searchParams.get("projects")?.toString() ? "bg-gray-100 rounded-lg" : ""} `}
+                className={`flex items-center gap-3 mb-1.5 ${
+                  item.workspaceId.toString() ===
+                  searchParams.get("projects")?.toString()
+                    ? "bg-gray-100 rounded-lg"
+                    : ""
+                } `}
                 onClick={() => handleWorkspace(item.workspaceId)}
               >
-                <p className="text-[15px] text-gray-700 flex items-center justify-between gap-2 hover:bg-gray-100 py-1 w-full rounded-lg hover:cursor-pointer group">
-                  <div className="flex items-center gap-2">
+                <div className="text-[15px] text-gray-700 flex items-center justify-between gap-2 hover:bg-gray-100 py-1 w-full rounded-lg hover:cursor-pointer group">
+                  <h2 className="flex items-center gap-2">
                     <MdOutlineFolderCopy className="text-lg ml-2" />
                     {item.name}
-                  </div>
+                  </h2>
                   <Dropdowns />
-                </p>
+                </div>
               </div>
             ))
           : null}
